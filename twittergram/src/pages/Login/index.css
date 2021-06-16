@@ -1,7 +1,7 @@
 .container {
      display: flex;
      flex-direction: column;
-     background: linear-gradient(0deg, #706BCA, #706BCA);
+     background: #706BCA;
      max-width: 100vw;
      min-height: 100vh;
      padding-left: 80px;
@@ -19,7 +19,7 @@ font-family: cursive;
 .title{
      font-style: normal;
      font-weight: normal;
-     font-size: 32px;
+     font-size: 48px;
      margin-left: 170px;
     
      
@@ -34,12 +34,57 @@ font-family: cursive;
 }
 .image {
 width: auto;
-height: 350px;
+height: 450px;
 }
 
 .form {
-     width: 300px;
+     display: flex;
+     flex-direction: column;
+     width: 400px;
 margin-right: 150px;
 background: linear-gradient(180deg, #FFFFFF 0%, rgba(196, 196, 196, 0) 100%);
 border-radius: 45px;
+
+justify-content: center;
+align-items: center;
+
 }
+.email input, .senha input {
+     width: 377px;
+     height: 43px;
+     background: #FFFFFF;
+border-color: #FFFFFF;
+border-radius: 10px;
+margin-bottom: 13px;
+margin-top: 13px;
+
+}
+.form .singin {
+     width: 358px;
+height: 43px;
+left: 875px;
+top: 460px;
+
+background: #FF6582;
+border-radius: 180px;
+border-color: #FF6582;
+font-size: 18px;
+color :#FFF;
+border-bottom: 100px;
+
+}
+.form .register {
+     width: 358px;
+height: 43px;
+left: 875px;
+
+
+background: none;
+border-radius: 180px;
+border-color: #FFFFFF;
+font-size: 18px;
+color :#FFF;
+border-top: 13px;
+
+}
+

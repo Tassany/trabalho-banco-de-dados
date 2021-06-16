@@ -1,4 +1,4 @@
-import { Form, Input, Button, Checkbox } from 'antd';
+import React from  'react'
 
 import './index.css'
 import Home from '../../assets/images/home.png'
@@ -35,53 +35,23 @@ export default props => {
             </div>
             <div className= "body">
                 <img src= {Home} className= "image"/>
-                <div className = "form">
-                <Form
-      {...layout}
-      name="basic"
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+                
+                <form className = "form">
+                    
+                        <label className="email" placeholder= 'email' >
+                            
+                            <input type= "text" name="email"/>
+                        </label>
+                        <label className="senha" placeholder= 'senha' >
+                            
+                            <input type= "text" name="senha"/>
+                        </label>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
+                        <button className="singin" type="submit">Entrar</button>
 
-      <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
-
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-                </div>
+                        <button className="register" type="submit">Cadastrar</button>
+                </form>
+               
             </div>
         </div>
     )
