@@ -1,15 +1,19 @@
 .app-header {
     align-items: center;
-    background: #dcdcdc;
+    background: #FF6582;
     display: flex;
     justify-content: space-between;
     padding: 0 2rem;
+    z-index: 1;
     position: sticky;
     top: 0;
 }
-
-.app-header__logo {
-    background: #999;
-    height: 25px;
+.photo{
+    border-radius: 50%;
     width: 100px;
+    height: 100px;
+    padding: 15px;
+}
+.h1-header{
+    padding-right: 900px;
 }
