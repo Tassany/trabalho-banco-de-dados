@@ -15,34 +15,14 @@ export default function Feed() {
   // useEffect(() => {
   //   refreshPosts();
   //     return () => {
-
-  //     }
-  // }, [])
-
-  // async function refreshPosts(){
-  //     Server.getAllUsers()
-  //         .then(
+s       .then(
   //             response => {
   //                 setPosts(response.data)
   //             }
   //         )
 
   // }
-  state = {
-    users: [],
-  };
 
-  // componentDidMount(){
-  //   axios.get(`http://localhost:5000/users`)
-  //     .then(res => {
-  //       const users = res.data;
-  //       this.setState({ users });
-  //     })
-  // }
-
-  // const lis = teste.map(teste => {
-  //   return <Post titulo={teste.name}> </Post>
-  // })
   return (
     <>
       <Header />
@@ -60,4 +40,6 @@ export default function Feed() {
       </Container>
     </>
   );
+  }
+
 }
