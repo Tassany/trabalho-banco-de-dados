@@ -1,0 +1,12 @@
+{% extends 'usuario_cabecalho.html' %}
+
+{% block extensao_usuario %}	
+<div class="usuario-seguidores-seguindo">
+{% for seguindo in usuario_seguindo.lista_seguindo %}
+	<div class="seguidores-item">
+		<img src={{seguindo[1]}} class="foto-perfil-seguidor"> 
+		<a href="/u/{{seguindo[0]}}"> @{{seguindo[0]}} </a>
+	</div>
+{% endfor %}
+</div>
+{% endblock extensao_usuario %}	
