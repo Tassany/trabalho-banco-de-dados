@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React from  'react'
+import React, { Component } from  'react'
 import {useState, useEffect} from 'react';
 import './index.css'
 
@@ -11,7 +11,8 @@ import axios from 'axios';
 
 
 
-export default function Feed(){
+
+export default class Feed extends Component{
 
   // const [posts, setPosts] = useState([]);
 
@@ -47,15 +48,16 @@ export default function Feed(){
   // const lis = teste.map(teste => {
   //   return <Post titulo={teste.name}> </Post>
   // })
-  return(
+  render(){
+      return(
     <>
       <Header />
       <Container>
           <h1>Feed</h1>
 
-                <ul>
-        { this.state.users.map(user => <li>{user.name}</li>)}
-      </ul>
+          <ul>
+            { this.state.users.map(user => <Post titulo={user.name}> </Post>)}
+          </ul>
           {/* <h2>{posts}</h2>
           {lis} */}
           {/* <Post></Post> */}
@@ -63,4 +65,6 @@ export default function Feed(){
 
     </>
   );
+  }
+
 }
