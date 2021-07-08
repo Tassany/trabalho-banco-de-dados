@@ -1,36 +1,35 @@
 .post-class{
-    position: relative;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-    height: 600px;
+    padding-top: 100px;
+    margin-bottom: 50px !important;
     
+    margin: 0 auto;
+    max-width: 600px;
+    position: relative;
+    width: 100%;
+    bottom: -50%;
+
     background: #F2F7F5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 45px;
+    border-radius: 45px 45px 0px 0px;
 }
+/* 
+h1 .titulo-post{
+} */
 
 .hr-post{
 
     position: relative;
     bottom: -480px;
 }
-.photo-post{
-    position: relative;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100px;
-    height: 100px;
-}
+
 
 .rectangle-post{
     position: absolute;
-    height: 130px;
+    height: 100px;
     width: 100%;
     left: 0px;
     top: 0px;
+
     border-radius: 45px 45px 0px 0px; 
     background: #706BCA;
 }
