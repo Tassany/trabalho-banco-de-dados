@@ -1,90 +1,94 @@
 .container {
-     display: flex;
-     flex-direction: column;
-     background: #706BCA;
-     max-width: 100vw;
-     min-height: 100vh;
-     padding-left: 80px;
+  display: flex;
+  flex-direction: column;
+  background: #706bca;
+  max-width: 100vw;
+  min-height: 100vh;
+  padding-left: 80px;
 }
 .cont-text {
-     
-justify-content: start;
-width: 100%;
-margin-top: 70px;
-line-height: 60px;
-text-align:  start;
-color: #FFFFFF;
-font-family: cursive;
+  justify-content: start;
+  width: 100%;
+  margin-top: 70px;
+  line-height: 60px;
+  text-align: start;
+  color: #ffffff;
+  font-family: cursive;
 }
-.title{
-     font-style: normal;
-     font-weight: normal;
-     font-size: 48px;
-     margin-left: 170px;
-    
-     
+.title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 48px;
+  margin-left: 170px;
 }
 .body {
-     display: flex;
-     margin-top: 50px;
-     flex-direction: row;
-     justify-content:space-around;
-     align-content: flex-start;
-    
+  display: flex;
+  margin-top: 50px;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: flex-start;
 }
 .image {
-width: auto;
-height: 450px;
+  width: auto;
+  height: 450px;
 }
 
 .form {
-     display: flex;
-     flex-direction: column;
-     width: 400px;
-margin-right: 150px;
-background: linear-gradient(180deg, #FFFFFF 0%, rgba(196, 196, 196, 0) 100%);
-border-radius: 45px;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin-right: 150px;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(196, 196, 196, 0) 100%);
+  border-radius: 45px;
 
-justify-content: center;
-align-items: center;
-
+  justify-content: center;
+  align-items: center;
 }
-.email input, .senha input {
-     width: 377px;
-     height: 43px;
-     background: #FFFFFF;
-border-color: #FFFFFF;
-border-radius: 10px;
-margin-bottom: 13px;
-margin-top: 13px;
 
+.email > label,
+.senha > label {
+  width: 100%;
+  display: flex;
+  align-items: start;
+}
+.email input,
+.senha input {
+  width: 377px;
+  height: 43px;
+  background: #ffffff;
+  border-color: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 13px;
+  margin-top: 13px;
+}
+.email input:focus,
+.senha input:focus {
+  box-shadow: 0 0 0 0;
+  outline: 0;
 }
 .form .singin {
-     width: 358px;
-height: 43px;
-left: 875px;
-top: 460px;
+  width: 358px;
+  height: 43px;
+  left: 875px;
+  top: 460px;
 
-background: #FF6582;
-border-radius: 180px;
-border-color: #FF6582;
-font-size: 18px;
-color :#FFF;
-border-bottom: 100px;
-
+  background: #ff6582;
+  border-radius: 180px;
+  border-color: #ff6582;
+  font-size: 18px;
+  color: #fff;
+  border-bottom: 100px;
 }
 .form .register {
-     width: 358px;
-height: 43px;
-left: 875px;
+  width: 358px;
+  height: 43px;
+  left: 875px;
 
-
-background: none;
-border-radius: 180px;
-border-color: #FFFFFF;
-font-size: 18px;
-color :#FFF;
-border-top: 13px;
-
+  background: none;
+  border-radius: 180px;
+  border-color: #ffffff;
+  font-size: 18px;
+  color: #fff;
+  border-top: 13px;
+  margin-top: 12px;
 }
-
