@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/style.css') }}">
+		<title>Simple document</title>
+	</head>
+	<body>
+
+		<div style="width:1000px; margin:50px auto"> <h1>#{{postagens_tag.tag_nome}}</h1> </div>
+		<hr>
+		<nav class="galeria">
+			{% for postagem in postagens_tag.lista_postagens %}
+			<div class="galeria-miniatura">
+				<img src={{postagem[0]}} class="galeria-miniatura" width="350" height="350">
+			</div>
+			{% endfor %}
+		</nav>
+	</body>
+</html>

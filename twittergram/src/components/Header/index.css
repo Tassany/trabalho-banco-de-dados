@@ -5,7 +5,7 @@
     justify-content: space-between;
     padding: 0 2rem;
     z-index: 1;
-    position: sticky;
+    position: fixed;
     top: 0;
 }
 .photo{

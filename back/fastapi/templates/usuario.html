@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/style.css') }}">
 		<title>Simple document</title>
 	</head>
 	<body>
-		<div class='profileInfo'> 
-			<img width="200" height="200"/>
-			</br><b> {{data.usuario_nome}}</b>
-			</br><b>Membro desde: {{data.data_criacao}}</b> 
+
+		<div class="usuario-seguidores-seguindo">
+			{% for seguindo in usuarios.lista_usuarios %}
+			<div class="seguidores-item">
+				<img src={{seguindo[1]}} class="foto-perfil-seguidor"> 
+				<a href="/u/{{seguindo[0]}}"> @{{seguindo[0]}} </a>
+			</div>
+			{% endfor %}
 		</div>
 
-		<div class='profileBar'> Postagens Comentários Seguidores Seguindo </div>
-		<h2> Descrição </h2>
-		<p> {{data.descricao}} </p>
 	</body>
 </html>
 

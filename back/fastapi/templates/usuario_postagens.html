@@ -1,0 +1,21 @@
+{% extends 'usuario_cabecalho.html' %}
+
+{% block extensao_usuario %}	
+
+<form action="/pesquisar" method="post">
+	<input type="text" name="nome" placeholder="@usuário ou #tag...">
+	<button> aaa </button>
+</form>
+
+<nav class="galeria">
+	{% for postagem in usuario_postagens.lista_postagens %}
+	<div class="galeria-miniatura">
+		<img src={{postagem[0]}} class="galeria-miniatura" width="350" height="350">
+	</div>
+	{% endfor %}
+	<!-- <div class="galeria-miniatura">
+	 <img src="https://upload.wikimedia.org/wikipedia/pt/e/ed/Shrek%28personagem%29.jpg" class="galeria-miniatura" width="350" height="350">
+	 </div> -->
+</nav>
+
+{% endblock extensao_usuario %}	
