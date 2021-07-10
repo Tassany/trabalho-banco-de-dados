@@ -8,6 +8,7 @@ router.get('/', userController.getUsers)
 router.get('/:id_user', userController.getUserById)
 router.get('/feed/:id_user', userController.getFeed)
 router.post('/', userController.createUser)
+router.post('/postar', userController.createPost)
 router.put('/:id_user', userController.updateUser)
 router.delete('/:id_user', userController.deleteUser)
 
