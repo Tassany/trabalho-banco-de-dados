@@ -1,6 +1,5 @@
 const express = require('express');
 const userController = require('../controllers/userController');
-const allowCors = require('./cors')
 
 const router = express.Router();
 

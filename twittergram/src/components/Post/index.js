@@ -10,7 +10,7 @@ const Post = (props) => (
         </div>
 
         
-        <Photo src="https://static.vecteezy.com/ti/fotos-gratis/p1/703357-bom-pequeno-amarelo-pato-retrato-isolado-no-branco-foto.jpg"></Photo>
+        <Photo src={props.src}></Photo>
         <span>Tags:</span>
     </div>
 )

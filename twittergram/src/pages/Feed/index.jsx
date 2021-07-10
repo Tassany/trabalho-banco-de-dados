@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { Component } from  'react'
 import {useState, useEffect} from 'react';
 import './index.css'
@@ -38,7 +37,7 @@ export default class Feed extends Component{
   }
 
   componentDidMount(){
-    axios.get(`http://localhost:5000/users`)
+    axios.get(`http://localhost:5000/users/feed/3`)
       .then(res => {
         const users = res.data;
         this.setState({ users });
@@ -56,7 +55,7 @@ export default class Feed extends Component{
           <h1>Feed</h1>
 
           <ul>
-            { this.state.users.map(user => <Post titulo={user.name}> </Post>)}
+            { this.state.users.map(user => <Post src={user.url_picture} titulo={user.title}> </Post>)}
           </ul>
           {/* <h2>{posts}</h2>
           {lis} */}
