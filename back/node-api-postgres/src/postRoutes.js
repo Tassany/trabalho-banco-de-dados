@@ -5,10 +5,9 @@ const router = express.Router();
 
 router.get('/', userController.getUsers)
 router.get('/:id_user', userController.getUserById)
-router.get('/:id_user/feed', userController.getFeed)
-router.get('/:id_user/followers', userController.getFollowers)
-router.get('/:id_user/following', userController.getFollowing)
+router.get('/feed/:id_user', userController.getFeed)
 router.post('/', userController.createUser)
+router.post('/postar', userController.createPost)
 router.put('/:id_user', userController.updateUser)
 router.delete('/:id_user', userController.deleteUser)
 

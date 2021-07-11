@@ -35,50 +35,6 @@ const getFeed = (request, response) => {
     })
 }
 
-// CRIAR POSTAGEM
-const createPost = (request, response) => {
-	const { id_user, title, text, url_pic, tag_name } = request.body
-	console.log(request.body);
-
-	var resp = 1;
-
-	pool.query('INSERT INTO posts (id_user, title, text) VALUES ($1, $2, $3) RETURNING *;',
-		[id_user, title, text], (error, results) => {
-			if (error) {
-				throw error
-			}
-			
-			var id_post = results.rows[0]["id_post"];
-
-			for(let i = 0; i < url_pic.length; i++)
-			{
-				var sql = 'INSERT INTO pictures (id_post, url_picture) VALUES (' + id_post + ', \'' + url_pic[i] + '\') RETURNING *;';
-				pool.query(sql, 
-					(error, results) => {
-						if (error) {
-							throw error
-						}
-					})
-			}
-
-			for(let i = 0; i < url_pic.length; i++)
-			{
-				var sql = 'INSERT INTO tags (name) SELECT \'' + tag_name[i] +  '\' WHERE NOT EXISTS (SELECT 1 FROM tags WHERE name = \'' + tag_name[i] + '\');';
-				pool.query(sql, 
-					(error, results) => {
-						if (error) {
-							throw error
-						}
-					})
-			}
-
-
-			response.status(201).send(`Added post: ${results.rows[0].id_post}`)
-		})
-
-}
-
-
 // POST a new user
 const createUser = (request, response) => {
     const { name, email, password } = request.body
@@ -123,6 +79,30 @@ const deleteUser = (request, response) => {
     })
 }
 
+const getFollowers = (request, response) => {
+    const id_user = parseInt(request.params.id_user)
+
+    pool.query('SELECT * FROM rel_user_user INNER JOIN users ON users.id_user = rel_user_user.id_user WHERE rel_user_user.id_follow= $1', [id_user], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const getFollowing = (request, response) => {
+    const id_user = parseInt(request.params.id_user)
+
+    pool.query('SELECT * FROM rel_user_user INNER JOIN users ON users.id_user = rel_user_user.id_follow WHERE rel_user_user.id_user = $1', [id_user], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+
+
 // Exporting CRUD functions in a REST API
 module.exports = {
     getUsers,
@@ -131,5 +111,6 @@ module.exports = {
     updateUser,
     deleteUser,
 		getFeed,
-		createPost
+		getFollowers,
+		getFollowing
 }

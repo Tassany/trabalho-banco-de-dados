@@ -19,7 +19,7 @@ export default function Login(props) {
   };
 
   const auth = () => {
-    axios(API_URL, { email: form.email, senha: form.senha }).then((resp) => {
+    axios( `${API_URL}/auth`, { email: form.email, senha: form.senha }).then((resp) => {
       resp = JSON.parse(resp);
       if (resp) {
         return props.history.push({
@@ -34,7 +34,7 @@ export default function Login(props) {
   };
   const register = () => {
     axios
-      .post(API_URL, { name: form.name, email: form.email, senha: form.senha })
+      .post(`${API_URL}/register`, { name: form.name, email: form.email, senha: form.senha })
       .then((resp) => {
         resp = JSON.parse(resp);
 
