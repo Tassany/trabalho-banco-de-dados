@@ -3,6 +3,9 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = 5000
 const userRoutes = require('./routes/userRoutes');
+const postRoutes = require('./routes/postRoutes');
+const authRoutes = require('./routes/authRoutes');
+
 var cors = require('cors')
 
 app.use(cors())
@@ -18,6 +21,8 @@ app.get('/', (request, response) => {
 })
 
 app.use('/users', userRoutes)
+app.use('/posts', postRoutes)
+app.use('/', authRoutes)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
