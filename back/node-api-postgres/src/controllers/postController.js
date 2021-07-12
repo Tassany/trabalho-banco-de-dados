@@ -65,6 +65,11 @@ const getPostById = (request, response) => {
 
 			function getPostComments(id_post) {
 				// Pegar os comentarios do post
+				// "depth" é utilizado para indicar a profundidade
+				// do comentário na "árvore" de respostas.
+				// comentários sem pai possuem depth 0. Quanto maior depth, mais afastado
+				// para a direita devem ser os comentários. Assim, basta apresentá-los na
+				// ordem em que foram retornados
 				sql = 'WITH RECURSIVE resp AS (' + 
 'SELECT id_comment, array[id_comment] AS path, 0 as depth, text, id_user, create_date, id_post ' +
 'FROM comments ' +
@@ -97,7 +102,7 @@ const getPostById = (request, response) => {
 // COMENTAR POSTAGEM
 const commentPost = (request, response) => {
 	const id_post = parseInt(request.params.id_post);
-	const { id_user, text, id_comment, id_comment_father } = request.body
+	const { id_user, text,  id_comment_father } = request.body
 
 	var sql = 'INSERT INTO comments (id_user, id_post, id_comment_father, text)' + 
 						'VALUES (' + id_user + ', ' + id_post + ', ' + id_comment_father +
@@ -116,20 +121,28 @@ const commentPost = (request, response) => {
 
 // Deletar comentário
 const deleteComment = (request, response) => {
-    const id_user = parseInt(request.params.id_user)
+	const id_comment = parseInt(request.params.id_comment);
 
-    pool.query('DELETE FROM users WHERE id_user = $1', [id_user], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).send(`User deleted with ID: ${id_user}`)
-    })
+	var sql = 'WITH RECURSIVE resp AS ( ' +
+						'SELECT id_comment, array[id_comment] AS path ' + 
+						'FROM comments ' + 
+						'WHERE id_comment = ' + id_comment + ' ' + 
+						'UNION ALL ' +
+						'SELECT c.id_comment, p.path||c.id_comment ' +
+						'FROM comments c ' + 
+						'JOIN resp p ON p.id_comment = c.id_comment_father) ' +
+						'DELETE FROM comments c WHERE c.id_comment IN (SELECT r.id_comment FROM resp r);';
+
+	pool.query(sql, (error, results) => {
+		if (error)  throw error;
+		response.status(200).send(`Comentário deletado: ${id_comment}`)
+	})
 }
 
 // Exporting CRUD functions in a REST API
 module.exports = {
-		createPost,
-		getPostById,
-		commentPost,
-		deleteComment
+	createPost,
+	getPostById,
+	commentPost,
+	deleteComment
 }
