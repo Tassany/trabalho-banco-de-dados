@@ -21,7 +21,7 @@ app.get('/', (request, response) => {
 })
 
 app.use('/users', userRoutes)
-app.use('/posts', postRoutes)
+app.use('/', postRoutes)
 app.use('/', authRoutes)
 
 app.listen(port, () => {
