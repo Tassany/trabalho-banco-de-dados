@@ -59,6 +59,7 @@ const getPostById = (request, response) => {
 
 			pool.query(sql, (error, res) => {
 				if (error) throw error;
+				console.log(results)
 				results.rows[0]["pictures"] = res.rows;
 				getPostComments(id_post);
 			})
