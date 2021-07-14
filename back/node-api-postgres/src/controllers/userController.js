@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const pool = require('../pool/pool.js')
 
@@ -112,6 +113,28 @@ const getUserName = (request, response) => {
     })
 }
 
+const followUser = (req, res) => {
+    
+    pool.query("INSERT into rel_user_user (id_user, id_follow) VALUES ($1, $2)",[id_user, id_follow], (error, results) => {
+        if(error){
+            throw error;
+        }
+        res.status(200).send(`You are now following user ${id_follow}!`)
+    })
+}
+
+const unfollowUser = (request, response) => {
+    const id_follow = parseInt(request.params.id_user)
+    const {id_user} = request.body;
+
+    pool.query('DELETE FROM rel_user_user WHERE id_user = $1 AND id_follow = $2', [id_user, id_follow], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).send(`You stopped following user ${id_follow}!`)
+    })
+}
+
 
 
 
@@ -125,5 +148,7 @@ module.exports = {
 		getFeed,
 		getFollowers,
 		getFollowing,
-        getUserName
+        getUserName,
+        followUser,
+        unfollowUser
 }

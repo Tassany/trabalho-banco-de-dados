@@ -10,7 +10,10 @@ router.get('/:id_user/feed', userController.getFeed)
 router.get('/:id_user/followers', userController.getFollowers)
 router.get('/:id_user/following', userController.getFollowing)
 router.post('/', userController.createUser)
+router.post('/follow/:id_user', userController.followUser)
 router.put('/:id_user', userController.updateUser)
 router.delete('/:id_user', userController.deleteUser)
+router.delete('/unfollow/:id_user', userController.unfollowUser)
+
 
 module.exports = router;
