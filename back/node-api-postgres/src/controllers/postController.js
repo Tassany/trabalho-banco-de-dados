@@ -155,11 +155,39 @@ const getAllWithTag = (req, res) => {
 	
 }
 
+//GET ALL POSTS
+const getAllPosts = (req, res) => {
+	
+	var sql = "SELECT id_post, id_user, title, text FROM posts ORDER BY id_post ASC"
+
+	pool.query(sql, (error, results) => {
+		if(error){
+			throw error;
+		}
+		res.status(200).json(results.rows);
+	})
+}
+
+//DELETE POST BY ID
+const deleteById = (req, res) => {
+	const id_post = parseInt(req.params.id_post)
+
+	var sql = "SELECT DeletaPost(" + id_post + ")";
+	pool.query(sql, (error, results) => {
+		if(error){
+			throw error;
+		}
+		res.status(200).send(`Post deletado: ${id_post}`)
+	})
+}
+
 // Exporting CRUD functions in a REST API
 module.exports = {
 	createPost,
 	getPostById,
 	commentPost,
 	deleteComment,
-	getAllWithTag
+	getAllWithTag,
+	getAllPosts,
+	deleteById
 }
