@@ -1,7 +1,7 @@
 .app-container {
     font-family: sans-serif;
-    height: calc(90vh - 150px - 50px - 64px);
-    padding: 10px;
+    
+    
     justify-content: space-around;
     display:flex;
     flex-direction: column;
