@@ -139,10 +139,27 @@ const deleteComment = (request, response) => {
 	})
 }
 
+//GET ALL POSTS WITH TAG
+const getAllWithTag = (req, res) => {
+
+	const {tag_name} = req.body;
+
+	var sql = "WITH post_thumb AS (SELECT ROW_NUMBER() OVER (PARTITION BY id_post ORDER BY pics.id_picture ASC) m, pics.url_picture, pics.id_post FROM pictures pics) SELECT post_thumb.url_picture, p.id_post FROM post_thumb INNER JOIN posts p ON p.id_post = post_thumb.id_post INNER JOIN rel_tag_post rtp ON rtp.id_post = post_thumb.id_post INNER JOIN tags t ON t.id_tag = rtp.id_tag WHERE m = 1 AND name = '" + tag_name + "' ORDER BY p.create_date DESC;"
+	pool.query(sql, (error, results) => {
+		if(error){
+			throw error;
+			
+		}
+		res.status(200).send(results.rows)
+	})	
+	
+}
+
 // Exporting CRUD functions in a REST API
 module.exports = {
 	createPost,
 	getPostById,
 	commentPost,
-	deleteComment
+	deleteComment,
+	getAllWithTag
 }

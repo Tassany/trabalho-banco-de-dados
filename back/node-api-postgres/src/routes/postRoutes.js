@@ -3,6 +3,7 @@ const postController = require('../controllers/postController');
 
 const router = express.Router();
 
+router.get('/posts/searchTag', postController.getAllWithTag)
 router.post('/posts/', postController.createPost)
 router.post('/posts/:id_post/comment', postController.commentPost)
 router.get('/posts/:id_post', postController.getPostById)

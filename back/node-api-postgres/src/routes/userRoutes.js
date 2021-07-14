@@ -4,6 +4,7 @@ const userController = require('../controllers/userController');
 const router = express.Router();
 
 router.get('/', userController.getUsers)
+router.get('/search', userController.getUserName)
 router.get('/:id_user', userController.getUserById)
 router.get('/:id_user/feed', userController.getFeed)
 router.get('/:id_user/followers', userController.getFollowers)

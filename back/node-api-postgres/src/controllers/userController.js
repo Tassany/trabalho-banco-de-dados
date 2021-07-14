@@ -101,6 +101,18 @@ const getFollowing = (request, response) => {
     })
 }
 
+const getUserName = (request, response) => {
+
+    const { name } = request.body;
+    pool.query("SELECT t.name, t.url_pic_perfil FROM (SELECT * , REGEXP_MATCHES(name, \'^" + name + "[A-Za-z0-9_]\', 'i') FROM users) t;", (error, results) => {
+        if(error){
+            throw error;
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+
 
 
 // Exporting CRUD functions in a REST API
@@ -112,5 +124,6 @@ module.exports = {
     deleteUser,
 		getFeed,
 		getFollowers,
-		getFollowing
+		getFollowing,
+        getUserName
 }
