@@ -54,11 +54,11 @@ const createUser = (request, response) => {
 // PUT updated data in an existing user
 const updateUser = (request, response) => {
     const id_user = parseInt(request.params.id_user)
-    const { name, email, password } = request.body
+    const { name, email, password, url_pic_perfil, description } = request.body
 
     pool.query(
-        'UPDATE users SET name = $1, email = $2, password = $3 WHERE id_user = $4',
-        [name, email, password, id_user],
+        'UPDATE users SET name = $1, email = $2, password = $3, url_pic_perfil = $4, description = $5 WHERE id_user = $6',
+        [name, email, password, url_pic_perfil, description, id_user],
         (error, results) => {
             if (error) {
                 throw error
@@ -135,6 +135,19 @@ const unfollowUser = (request, response) => {
     })
 }
 
+const deleteUserById = (req, res) => {
+	const id_user = parseInt(req.params.id_user)
+
+	var sql = "SELECT DeletaUser(" + id_user + ")";
+	pool.query(sql, (error, results) => {
+		if(error){
+			throw error;
+		}
+		res.status(200).send(`User deletado: ${id_user}`)
+	})
+}
+
+
 
 
 
@@ -150,5 +163,6 @@ module.exports = {
 		getFollowing,
         getUserName,
         followUser,
-        unfollowUser
+        unfollowUser,
+        deleteUserById
 }

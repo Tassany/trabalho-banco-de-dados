@@ -12,7 +12,7 @@ router.get('/:id_user/following', userController.getFollowing)
 router.post('/', userController.createUser)
 router.post('/follow/:id_user', userController.followUser)
 router.put('/:id_user', userController.updateUser)
-router.delete('/:id_user', userController.deleteUser)
+router.delete('/:id_user', userController.deleteUserById)
 router.delete('/unfollow/:id_user', userController.unfollowUser)
 
 
