@@ -147,6 +147,18 @@ const deleteUserById = (req, res) => {
 	})
 }
 
+const getAllPostsByUser = (req, res) => {
+    const {id_user} = req.body;
+
+    var sql = "SELECT posts.* FROM users INNER JOIN posts ON posts.id_user = users.id_user WHERE users.id_user = $1"
+    pool.query(sql, [id_user], (error, results) => {
+        if(error){
+            throw error;
+        }
+        res.status(200).json(results.rows);
+    })
+}
+
 
 
 
@@ -164,5 +176,6 @@ module.exports = {
         getUserName,
         followUser,
         unfollowUser,
-        deleteUserById
+        deleteUserById,
+        getAllPostsByUser
 }
