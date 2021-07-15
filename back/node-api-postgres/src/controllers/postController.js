@@ -99,9 +99,27 @@ const getPostById = (request, response) => {
 					}
 
 					results.rows[0]["comments"] = res.rows;
-
-					response.status(200).json(results.rows[0])
+					getPostVideos(id_post);
 				})
+
+				function getPostVideos(id_post) {
+					sql = 'SELECT * FROM videos WHERE id_post = ' + id_post + ';';
+					pool.query(sql, (error, res) => {
+						if (error) throw error;
+						results.rows[0]["videos"] = res.rows;
+						getPostTags(id_post);
+					})
+
+					function getPostTags(id_post) {
+						sql = 'SELECT tags.* FROM rel_tag_post INNER JOIN posts ON rel_tag_post.id_post = posts.id_post INNER JOIN tags ON tags.id_tag = rel_tag_post.id_tag WHERE posts.id_post = ' + id_post + ';';
+						pool.query(sql, (error, res) => {
+							if (error) throw error;
+							results.rows[0]["tags"] = res.rows;
+							response.status(200).json(results.rows[0])
+						})
+					}
+				}
+
 			}
 
 
