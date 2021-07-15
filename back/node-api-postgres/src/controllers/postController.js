@@ -6,7 +6,7 @@ const createPost = (request, response) => {
 	const { id_user, title, text, url_pic, url_video, tag_name } = request.body
 
 	var resp = 1;
-
+	
 	pool.query('INSERT INTO posts (id_user, title, text) VALUES ($1, $2, $3) RETURNING *;',
 		[id_user, title, text], (error, results) => {
 			if (error) {
@@ -26,7 +26,7 @@ const createPost = (request, response) => {
 					})
 			}
 
-			for(let i = 0; i < url_pic.length; i++)
+			for(let i = 0; i < url_video.length; i++)
 			{
 				var sql = 'INSERT INTO videos (id_post, url_video) VALUES (' + id_post + ', \'' + url_video[i] + '\') RETURNING *;';
 				pool.query(sql, 
