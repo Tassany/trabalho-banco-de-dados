@@ -3,6 +3,8 @@ import axios from "axios";
 import "./index.css";
 import Home from "../../assets/images/home.png";
 const API_URL = "http://localhost:5000";
+import AuthProvider from "../../components/Provider/AuthProvider";
+
 const userBD = require("../../components/userBD/userBD");
 const initialFormState = {
   user: {
@@ -15,7 +17,7 @@ const initialFormState = {
   label2: false,
 };
 
-export default class Login extends Component {
+class Login extends Component {
   state = { ...initialFormState };
 
   clear = () => {
@@ -213,3 +215,9 @@ export default class Login extends Component {
     );
   }
 }
+
+export default () => {
+  <AuthProvider>
+    <Login />
+  </AuthProvider>;
+};

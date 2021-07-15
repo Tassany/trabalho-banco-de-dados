@@ -1,21 +1,33 @@
-import React, { useContext, useState, Children } from "react";
+import React, { Component } from "react";
+import Contes from "./Contes";
 
-export const AuthContex = React.createContext(false, () => {});
+class AuthProvider extends Component {
+  state = {
+    user: {
+      id_user: -1,
+      name: "",
+      url_pic_perfil: "",
+      email: "",
+      password: "",
+      description: "",
+      create_date: "",
+    },
+  };
 
-export const AuthProvider = ({ children }) => {
-  const [user2, setUser2] = useState({
-    id_user: -1,
-    name: "",
-    url_pic_perfil: "",
-    email: "",
-    password: "",
-    description: "",
-    create_date: "",
-  });
+  render() {
+    return (
+      <Contes.Provider
+        value={{
+          user: this.state.user,
+          userUpdate: (user) => {
+            this.setState(user);
+          },
+        }}
+      >
+        {this.props.children}
+      </Contes.Provider>
+    );
+  }
+}
 
-  return (
-    <AuthContex.Provider value={[user2, setUser2]}>
-      {children}
-    </AuthContex.Provider>
-  );
-};
+export default AuthProvider;
