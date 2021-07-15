@@ -169,7 +169,7 @@ const getAllPosts = (req, res) => {
 }
 
 //DELETE POST BY ID
-const deleteById = (req, res) => {
+const deletePostById = (req, res) => {
 	const id_post = parseInt(req.params.id_post)
 
 	var sql = "SELECT DeletaPost(" + id_post + ")";
@@ -189,5 +189,5 @@ module.exports = {
 	deleteComment,
 	getAllWithTag,
 	getAllPosts,
-	deleteById
+	deletePostById
 }

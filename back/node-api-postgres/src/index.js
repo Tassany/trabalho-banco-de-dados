@@ -24,6 +24,6 @@ app.use('/users', userRoutes)
 app.use('/', postRoutes)
 app.use('/', authRoutes)
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`App running on port ${port}.`)
 })
