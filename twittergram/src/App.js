@@ -1,13 +1,14 @@
+import React, { Component } from "react";
+import "./App.css";
+import Routes from "./Routes/Routes";
+import { AuthProvider } from "./components/Provider/AuthProvider";
 
-import './App.css';
-import Routes from './Routes/Routes';
-
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <Routes></Routes>
-    </div>
+    <AuthProvider>
+      <div className="App">
+        <Routes></Routes>
+      </div>
+    </AuthProvider>
   );
 }
-
-export default App;
