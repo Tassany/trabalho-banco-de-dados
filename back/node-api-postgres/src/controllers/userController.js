@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const pool = require('../pool/pool.js')
 
@@ -53,11 +54,11 @@ const createUser = (request, response) => {
 // PUT updated data in an existing user
 const updateUser = (request, response) => {
     const id_user = parseInt(request.params.id_user)
-    const { name, email, password } = request.body
+    const { name, email, password, url_pic_perfil, description } = request.body
 
     pool.query(
-        'UPDATE users SET name = $1, email = $2, password = $3 WHERE id_user = $4',
-        [name, email, password, id_user],
+        'UPDATE users SET name = $1, email = $2, password = $3, url_pic_perfil = $4, description = $5 WHERE id_user = $6',
+        [name, email, password, url_pic_perfil, description, id_user],
         (error, results) => {
             if (error) {
                 throw error
@@ -101,6 +102,65 @@ const getFollowing = (request, response) => {
     })
 }
 
+const getUserName = (request, response) => {
+
+    const { name } = request.body;
+    pool.query("SELECT t.name, t.url_pic_perfil FROM (SELECT * , REGEXP_MATCHES(name, \'^" + name + "[A-Za-z0-9_]\', 'i') FROM users) t;", (error, results) => {
+        if(error){
+            throw error;
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const followUser = (req, res) => {
+    
+    pool.query("INSERT into rel_user_user (id_user, id_follow) VALUES ($1, $2)",[id_user, id_follow], (error, results) => {
+        if(error){
+            throw error;
+        }
+        res.status(200).send(`You are now following user ${id_follow}!`)
+    })
+}
+
+const unfollowUser = (request, response) => {
+    const id_follow = parseInt(request.params.id_user)
+    const {id_user} = request.body;
+
+    pool.query('DELETE FROM rel_user_user WHERE id_user = $1 AND id_follow = $2', [id_user, id_follow], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).send(`You stopped following user ${id_follow}!`)
+    })
+}
+
+const deleteUserById = (req, res) => {
+	const id_user = parseInt(req.params.id_user)
+
+	var sql = "SELECT DeletaUser(" + id_user + ")";
+	pool.query(sql, (error, results) => {
+		if(error){
+			throw error;
+		}
+		res.status(200).send(`User deletado: ${id_user}`)
+	})
+}
+
+const getAllPostsByUser = (req, res) => {
+    const {id_user} = req.body;
+
+    var sql = "SELECT posts.* FROM users INNER JOIN posts ON posts.id_user = users.id_user WHERE users.id_user = $1"
+    pool.query(sql, [id_user], (error, results) => {
+        if(error){
+            throw error;
+        }
+        res.status(200).json(results.rows);
+    })
+}
+
+
+
 
 
 // Exporting CRUD functions in a REST API
@@ -112,5 +172,10 @@ module.exports = {
     deleteUser,
 		getFeed,
 		getFollowers,
-		getFollowing
+		getFollowing,
+        getUserName,
+        followUser,
+        unfollowUser,
+        deleteUserById,
+        getAllPostsByUser
 }
