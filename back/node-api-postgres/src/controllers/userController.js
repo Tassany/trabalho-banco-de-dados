@@ -150,7 +150,7 @@ const deleteUserById = (req, res) => {
 const getAllPostsByUser = (req, res) => {
     const id_user = req.params.id_user;
 
-    var sql = "SELECT posts.* FROM users INNER JOIN posts ON posts.id_user = users.id_user WHERE users.id_user = $1"
+    var sql = "WITH post_thumb AS (SELECT ROW_NUMBER() OVER (PARTITION BY id_post ORDER BY pics.id_picture ASC) m, pics.url_picture, pics.id_post FROM pictures pics) SELECT * FROM posts p INNER JOIN post_thumb ON post_thumb.id_post = p.id_post WHERE p.id_user = $1 AND m = 1;"
     pool.query(sql, [id_user], (error, results) => {
         if(error){
             throw error;
