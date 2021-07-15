@@ -3,7 +3,7 @@ const pool = require('../pool/pool.js')
 
 // CRIAR POSTAGEM
 const createPost = (request, response) => {
-	const { id_user, title, text, url_pic, tag_name } = request.body
+	const { id_user, title, text, url_pic, url_video, tag_name } = request.body
 
 	var resp = 1;
 
@@ -18,6 +18,17 @@ const createPost = (request, response) => {
 			for(let i = 0; i < url_pic.length; i++)
 			{
 				var sql = 'INSERT INTO pictures (id_post, url_picture) VALUES (' + id_post + ', \'' + url_pic[i] + '\') RETURNING *;';
+				pool.query(sql, 
+					(error, results) => {
+						if (error) {
+							throw error
+						}
+					})
+			}
+
+			for(let i = 0; i < url_pic.length; i++)
+			{
+				var sql = 'INSERT INTO videos (id_post, url_video) VALUES (' + id_post + ', \'' + url_video[i] + '\') RETURNING *;';
 				pool.query(sql, 
 					(error, results) => {
 						if (error) {
