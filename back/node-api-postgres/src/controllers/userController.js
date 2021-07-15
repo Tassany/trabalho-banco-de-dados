@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const pool = require('../pool/pool.js')
 
@@ -101,6 +102,40 @@ const getFollowing = (request, response) => {
     })
 }
 
+const getUserName = (request, response) => {
+
+    const { name } = request.body;
+    pool.query("SELECT t.name, t.url_pic_perfil FROM (SELECT * , REGEXP_MATCHES(name, \'^" + name + "[A-Za-z0-9_]\', 'i') FROM users) t;", (error, results) => {
+        if(error){
+            throw error;
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const followUser = (req, res) => {
+    
+    pool.query("INSERT into rel_user_user (id_user, id_follow) VALUES ($1, $2)",[id_user, id_follow], (error, results) => {
+        if(error){
+            throw error;
+        }
+        res.status(200).send(`You are now following user ${id_follow}!`)
+    })
+}
+
+const unfollowUser = (request, response) => {
+    const id_follow = parseInt(request.params.id_user)
+    const {id_user} = request.body;
+
+    pool.query('DELETE FROM rel_user_user WHERE id_user = $1 AND id_follow = $2', [id_user, id_follow], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).send(`You stopped following user ${id_follow}!`)
+    })
+}
+
+
 
 
 // Exporting CRUD functions in a REST API
@@ -112,5 +147,8 @@ module.exports = {
     deleteUser,
 		getFeed,
 		getFollowers,
-		getFollowing
+		getFollowing,
+        getUserName,
+        followUser,
+        unfollowUser
 }
