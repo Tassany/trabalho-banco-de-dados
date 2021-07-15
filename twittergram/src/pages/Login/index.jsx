@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import "./index.css";
 import Home from "../../assets/images/home.png";
-import { AuthContex } from "../../components/Provider/AuthProvider";
 const API_URL = "http://localhost:5000";
-
+const userBD = require("../../components/userBD/userBD");
 const initialFormState = {
   user: {
     name: "",
@@ -16,29 +15,38 @@ const initialFormState = {
   label2: false,
 };
 
-export default function Login(props) {
-  const [user2, setUser2] = useContext(AuthContex);
-  const [form, setForm] = useState(initialFormState);
+export default class Login extends Component {
+  state = { ...initialFormState };
 
-  const clear = () => {
-    setForm(...initialFormState);
+  clear = () => {
+    this.setState(...initialFormState);
   };
 
-  const auth = () => {
+  auth = () => {
+    console.log(this.state.user.email);
+    console.log(this.state.user.senha);
+
     axios
       .post(`${API_URL}/signin`, {
-        email: form.user.email,
-        password: form.user.senha,
+        email: this.state.user.email,
+        password: this.state.user.senha,
       })
       .then((res) => {
         console.log(res.data);
-
+        console.log(userBD);
+        userBD.id_user = res.data[0].id_user;
+        userBD.name = res.data[0].name;
+        userBD.email = res.data[0].email;
+        userBD.password = res.data[0].password;
+        userBD.description = res.data[0].description;
+        userBD.create_date = res.data[0].create_date;
+        userBD.url_pic_perfil = res.data[0].url_pic_perfil;
+        console.log(userBD);
         if (res.data.length) {
-          setUser2(res.data[0]);
-          console.log(user2);
-
-          return props.history.push({
+          console.log(res.data[0]);
+          return this.props.history.push({
             pathname: "/feed",
+            state: { data: res.data[0] },
           });
         } else {
           this.setState({ label: true });
@@ -48,24 +56,24 @@ export default function Login(props) {
         console.log(err);
       });
   };
-  const register = () => {
-    console.log(form.user.name);
-    console.log(form.user.email);
-    console.log(form.user.senha);
+  register = () => {
+    console.log(this.state.user.name);
+    console.log(this.state.user.email);
+    console.log(this.state.user.senha);
 
     axios
       .post(`${API_URL}/signup`, {
-        name: form.user.name,
-        email: form.user.email,
-        password: form.user.senha,
+        name: this.state.user.name,
+        email: this.state.user.email,
+        password: this.state.user.senha,
       })
       .then((resp) => {
         if (resp.data.length) {
-          setForm({ label2: false });
-          setForm({ label: false });
-          setForm({ stageNew: false });
+          this.setState({ label2: false });
+          this.setState({ label: false });
+          this.setState({ stageNew: false });
         } else {
-          setForm({ label2: true });
+          this.setState({ label2: true });
         }
       })
       .catch((err) => {
@@ -73,134 +81,135 @@ export default function Login(props) {
       });
   };
 
-  const updateField = (event) => {
-    const user = { ...form.user };
+  updateField(event) {
+    const user = { ...this.state.user };
     user[event.target.name] = event.target.value;
-    setForm({ user: user });
-  };
-
-  return (
-    <div className="container">
-      <div className="cont-text">
-        <h1 className="title">TWITERGRAM</h1>
-      </div>
-      <div className="body">
-        <img src={Home} className="image" />
-        <form className="form">
-          <div
-            style={{
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              textAlign: "center",
-              width: "100%",
-              paddingBottom: "12px",
-            }}
-          >
-            {form.label2 && (
-              <label
-                style={{
-                  textAlign: "center",
-                  color: "red",
-                  fontSize: "15px",
-                }}
-              >
-                Usuário já castrado
-              </label>
+    this.setState({ user: user });
+  }
+  render() {
+    return (
+      <div className="container">
+        <div className="cont-text">
+          <h1 className="title">TWITERGRAM</h1>
+        </div>
+        <div className="body">
+          <img src={Home} className="image" />
+          <form className="form">
+            <div
+              style={{
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                textAlign: "center",
+                width: "100%",
+                paddingBottom: "12px",
+              }}
+            >
+              {this.state.label2 && (
+                <label
+                  style={{
+                    textAlign: "center",
+                    color: "red",
+                    fontSize: "15px",
+                  }}
+                >
+                  Usuário já castrado
+                </label>
+              )}
+            </div>
+            {this.state.stageNew && (
+              <div className="form-group email">
+                <label>Nome</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  value={this.state.user.name}
+                  onChange={(e) => this.updateField(e)}
+                  placeholder="Digite o name"
+                />
+              </div>
             )}
-          </div>
-          {form.stageNew && (
+            <div
+              style={{
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                textAlign: "center",
+                width: "100%",
+                paddingBottom: "12px",
+              }}
+            >
+              {this.state.label && (
+                <label
+                  style={{
+                    textAlign: "center",
+                    color: "red",
+                    fontSize: "15px",
+                  }}
+                >
+                  Verifique se email e senha estão corretos
+                </label>
+              )}
+            </div>
             <div className="form-group email">
-              <label>Nome</label>
+              <label>Email</label>
               <input
                 type="text"
                 className="form-control"
-                name="name"
-                value={form.user.name}
-                onChange={(e) => updateField(e)}
-                placeholder="Digite o name"
+                name="email"
+                value={this.state.user.email}
+                onChange={(e) => this.updateField(e)}
+                placeholder="Digite o email"
               />
             </div>
-          )}
-          <div
-            style={{
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              textAlign: "center",
-              width: "100%",
-              paddingBottom: "12px",
-            }}
-          >
-            {form.label && (
-              <label
-                style={{
-                  textAlign: "center",
-                  color: "red",
-                  fontSize: "15px",
+
+            <div className="form-group senha">
+              <label>Senha</label>
+              <input
+                type="password"
+                className="form-control"
+                name="senha"
+                value={this.state.user.senha}
+                onChange={(e) => this.updateField(e)}
+                placeholder="Digite o senha"
+              />
+            </div>
+
+            {!this.state.stageNew && (
+              <button
+                className="singin btn btn-primary"
+                type="button"
+                onClick={() => this.auth()}
+              >
+                Entrar
+              </button>
+            )}
+
+            {!this.state.stageNew && (
+              <button
+                className="register"
+                type="button"
+                onClick={() => {
+                  this.setState({ label2: false });
+                  this.setState({ label: false });
+                  this.setState({ stageNew: true });
                 }}
               >
-                Verifique se email e senha estão corretos
-              </label>
+                Cadastrar
+              </button>
             )}
-          </div>
-          <div className="form-group email">
-            <label>Email</label>
-            <input
-              type="text"
-              className="form-control"
-              name="email"
-              value={form.user.email}
-              onChange={(e) => updateField(e)}
-              placeholder="Digite o email"
-            />
-          </div>
 
-          <div className="form-group senha">
-            <label>Senha</label>
-            <input
-              type="password"
-              className="form-control"
-              name="senha"
-              value={form.user.senha}
-              onChange={(e) => updateField(e)}
-              placeholder="Digite o senha"
-            />
-          </div>
-
-          {!form.stageNew && (
-            <button
-              className="singin btn btn-primary"
-              type="button"
-              onClick={() => auth()}
-            >
-              Entrar
-            </button>
-          )}
-
-          {!form.stageNew && (
-            <button
-              className="register"
-              type="button"
-              onClick={() => {
-                setForm({ label2: false });
-                setForm({ label: false });
-                setForm({ stageNew: true });
-              }}
-            >
-              Cadastrar
-            </button>
-          )}
-
-          {form.stageNew && (
-            <button
-              className="singin btn btn-primary"
-              type="button"
-              onClick={() => register()}
-            >
-              Registrar
-            </button>
-          )}
-        </form>
+            {this.state.stageNew && (
+              <button
+                className="singin btn btn-primary"
+                type="button"
+                onClick={() => this.register()}
+              >
+                Registrar
+              </button>
+            )}
+          </form>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
