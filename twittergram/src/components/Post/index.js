@@ -109,7 +109,12 @@ export default class Post extends Component{
               </Modal.Header>
               <Modal.Body>
                 <ul > 
-                  {this.state.comments.map(user=> <li style={user.depth ? {marginLeft:'50px'}: {paddingLeft:'0px'}} > {user.text}</li> )}
+                {/* style={user.depth ? {marginLeft:'50px'}: {paddingLeft:'0px'}} >  */}
+                  {this.state.comments.map(user=> 
+                  <div>
+                    <strong>{user.name}: </strong>  <li> {user.text}</li>
+                  </div>
+                  )}
                 </ul>  
                   <form  onSubmit={this.handleSubmit}>
                     <label>Comentário</label>
