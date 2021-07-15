@@ -124,14 +124,14 @@ const deleteComment = (request, response) => {
 	const id_comment = parseInt(request.params.id_comment);
 
 	var sql = 'WITH RECURSIVE resp AS ( ' +
-						'SELECT id_comment, array[id_comment] AS path ' + 
-						'FROM comments ' + 
-						'WHERE id_comment = ' + id_comment + ' ' + 
-						'UNION ALL ' +
-						'SELECT c.id_comment, p.path||c.id_comment ' +
-						'FROM comments c ' + 
-						'JOIN resp p ON p.id_comment = c.id_comment_father) ' +
-						'DELETE FROM comments c WHERE c.id_comment IN (SELECT r.id_comment FROM resp r);';
+		'SELECT id_comment, array[id_comment] AS path ' + 
+		'FROM comments ' + 
+		'WHERE id_comment = ' + id_comment + ' ' + 
+		'UNION ALL ' +
+		'SELECT c.id_comment, p.path||c.id_comment ' +
+		'FROM comments c ' + 
+		'JOIN resp p ON p.id_comment = c.id_comment_father) ' +
+		'DELETE FROM comments c WHERE c.id_comment IN (SELECT r.id_comment FROM resp r);';
 
 	pool.query(sql, (error, results) => {
 		if (error)  throw error;
