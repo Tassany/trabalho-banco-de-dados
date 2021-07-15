@@ -1,5 +1,5 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Feed from "../pages/Feed/index2";
+import Feed from "../pages/Feed/index";
 import Login from "../pages/Login/index";
 import Friends from "../pages/Friends";
 import OwnPosts from "../pages/OwnPosts";

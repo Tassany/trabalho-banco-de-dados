@@ -22,7 +22,7 @@ export default class Feed extends Component{
       .then(res => {
         const usersPost  = res.data;
         this.setState({ usersPost });
-        
+        console.log(res.data)
       })
       axios.get(`http://localhost:5000/users/1`)
       
@@ -63,6 +63,7 @@ export default class Feed extends Component{
                 src={user.url_picture}
                 titulo={user.title}
                 texto={user.text}
+                id_post={user.id_post}
                 > </Post>)}
               </ul>
             </Col>

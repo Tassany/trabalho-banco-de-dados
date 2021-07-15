@@ -39,16 +39,17 @@ export default class Post extends Component{
   handleShow =()=>{this.setState({show:true})};
 
   handleSubmit = ()=>{
-      axios.post(`http://localhost:5000/posts/132/comment`, {
+      axios.post(`http://localhost:5000/posts/${this.props.id_post}/comment`, {
         id_user:  1,
         text: this.state.addComments.texto,
         id_comment_father: null,
       })
+      
       .then(res => {
         this.setState({
           addComments:{texto:''}
         });
-        axios.get(`http://localhost:5000/posts/132`)
+        axios.get(`http://localhost:5000/posts/${this.props.id_post}`)
         .then(res => {
           const comments = res.data.comments;
           this.setState({ comments });
@@ -64,7 +65,7 @@ export default class Post extends Component{
   };
 
   componentDidMount(){
-      axios.get(`http://localhost:5000/posts/132`)
+      axios.get(`http://localhost:5000/posts/${this.props.id_post}`)
       .then(res => {
         const comments = res.data.comments;
         this.setState({ comments });
