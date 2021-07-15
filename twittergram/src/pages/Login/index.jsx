@@ -3,6 +3,7 @@ import axios from "axios";
 import "./index.css";
 import Home from "../../assets/images/home.png";
 const API_URL = "http://localhost:5000";
+const userBD = require("../../components/userBD/userBD");
 const initialFormState = {
   user: {
     name: "",
@@ -32,7 +33,15 @@ export default class Login extends Component {
       })
       .then((res) => {
         console.log(res.data);
-
+        console.log(userBD);
+        userBD.id_user = res.data[0].id_user;
+        userBD.name = res.data[0].name;
+        userBD.email = res.data[0].email;
+        userBD.password = res.data[0].password;
+        userBD.description = res.data[0].description;
+        userBD.create_date = res.data[0].create_date;
+        userBD.url_pic_perfil = res.data[0].url_pic_perfil;
+        console.log(userBD);
         if (res.data.length) {
           console.log(res.data[0]);
           return this.props.history.push({
