@@ -109,10 +109,10 @@ export default class Post extends Component{
               </Modal.Header>
               <Modal.Body>
                 <ul > 
-                {/* style={user.depth ? {marginLeft:'50px'}: {paddingLeft:'0px'}} >  */}
+                
                   {this.state.comments.map(user=> 
-                  <div>
-                    <strong>{user.name}: </strong>  <li> {user.text}</li>
+                  <div style={user.depth ? {marginLeft: user.depth*50+'px'}: {paddingLeft:'0px'}}>
+                    <strong>{user.name}: </strong>  <li > {user.text}</li>
                   </div>
                   )}
                 </ul>  

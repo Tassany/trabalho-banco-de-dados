@@ -15,7 +15,6 @@ export default class Feed extends Component{
   state = {
     usersPost: [],
     user: [],
-    comments: []
   }
 
   componentDidMount(){
@@ -26,7 +25,7 @@ export default class Feed extends Component{
         
       })
       axios.get(`http://localhost:5000/users/1`)
-      // axios.get(`http://localhost:5000/users/${this.props.location.state.data.id_user}`)
+      
       .then(res => {
         const user = res.data;
         this.setState({ user });

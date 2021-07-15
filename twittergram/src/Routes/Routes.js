@@ -1,9 +1,8 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Feed from "../pages/Feed";
+import Feed from "../pages/Feed/index2";
 import Login from "../pages/Login/index";
 import Friends from "../pages/Friends";
-import Photos from "../pages/Photos";
-import Videos from "../pages/Videos";
+import OwnPosts from "../pages/OwnPosts";
 import Postar from "../pages/Postar/postar.jsx";
 
 export default function Routes() {
@@ -13,8 +12,7 @@ export default function Routes() {
         <Route exact path="/" component={Login} />
         <Route path="/feed" component={Feed} />
         <Route exact path="/friends" component={Friends} />
-        <Route path="/photos" component={Photos} />
-        <Route path="/videos" component={Videos} />
+        <Route path="/ownposts" component={OwnPosts} />
         <Route path="/postar" component={Postar} />
       </Switch>
     </BrowserRouter>

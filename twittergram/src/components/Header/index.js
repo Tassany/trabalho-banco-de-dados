@@ -9,12 +9,11 @@ const imageUrl = "https://static.vecteezy.com/ti/fotos-gratis/p1/703357-bom-pequ
 const Header = () => (
 <Navbar className="navbar" bg="dark" variant="dark" fixed="top">
     
-    <Navbar.Brand href="/feed">TwitterGram</Navbar.Brand>
+    <Navbar.Brand href="/">TwitterGram</Navbar.Brand>
         <Nav className="me-auto">
             <Nav.Link href="/feed">Feed</Nav.Link>
             <Nav.Link href="/friends">Amigos</Nav.Link>
-            <Nav.Link href="/photos">Fotos</Nav.Link>
-            <Nav.Link href="/videos">Vídeos</Nav.Link>
+            <Nav.Link href="/ownposts">Suas postagens</Nav.Link>
             <Nav.Link href="/postar">Postar</Nav.Link>
         </Nav>
     
