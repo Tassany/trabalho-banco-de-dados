@@ -15,17 +15,11 @@ const Header = () => (
             <Nav.Link href="/friends">Amigos</Nav.Link>
             <Nav.Link href="/photos">Fotos</Nav.Link>
             <Nav.Link href="/videos">Vídeos</Nav.Link>
+            <Nav.Link href="/postar">Postar</Nav.Link>
         </Nav>
     
  </Navbar>
-    // <header className="app-header">
-        
-    //     <img className="photo" src={imageUrl}></img>
-    //     <h1 className="h1-header">Nome Usuário</h1>
-    //     {/* <Profile></Profile> */}
-    //     <Menu />
-        
-    // </header>
+
 )
 
 export default Header

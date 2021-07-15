@@ -19,6 +19,7 @@ const initialFormState = {
 };
 export default class Photos extends Component {
   state = { ...initialFormState };
+  
 
   posts = () => {
     console.log(this.state.form.title);
@@ -66,6 +67,7 @@ export default class Photos extends Component {
     this.setState({ form: user });
   }
   render() {
+    
     return (
       <>
         <Header />

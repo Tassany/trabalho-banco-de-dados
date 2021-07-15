@@ -26,6 +26,7 @@ export default class Feed extends Component{
         
       })
       axios.get(`http://localhost:5000/users/1`)
+      // axios.get(`http://localhost:5000/users/${this.props.location.state.data.id_user}`)
       .then(res => {
         const user = res.data;
         this.setState({ user });
@@ -45,11 +46,15 @@ export default class Feed extends Component{
             <Col md={4}>
               <Card style={{ width: '18rem' }}>
                   <Card.Body>
-                    { this.state.user.map(user => <Card.Title>{user.name}</Card.Title>)}
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the bulk of
-                      the card's content.
-                    </Card.Text>
+                    { this.state.user.map(user =>
+                    <>
+                      <Card.Title>{user.name}</Card.Title>
+                      <Card.Text>
+                      {user.description}
+                      </Card.Text>
+                    </>
+                      )}
+
                   </Card.Body>
                 </Card>
             </Col>

@@ -7,33 +7,82 @@ import Card from 'react-bootstrap/Card'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Photo from '../Photo'
+import Form from 'react-bootstrap/Form'
 
 import axios from 'axios';
+const initialFormState ={
+  show: false,
+  comments: [],
+  addComments:{
+    id_usuario: 1,
+    texto: "",
+    id_comentario_pai: null,
+  }
+}
+
 
 export default class Post extends Component{
   state ={
-    show: false,
-    comments: []
+    ...initialFormState
   }
+  clear = () => {
+    this.setState(...initialFormState);
+  };
+
+  commentStyle = () => {
+    if(!this.state.comments.id_comentario_pai){
+      return {paddingLeft:'50px'}
+    }
+  }
+
   handleClose = ()=>{this.setState({show:false})};
   handleShow =()=>{this.setState({show:true})};
 
-  componentDidMount(){
+  handleSubmit = ()=>{
+      axios.post(`http://localhost:5000/posts/132/comment`, {
+        id_user:  1,
+        text: this.state.addComments.texto,
+        id_comment_father: null,
+      })
+      .then(res => {
+        this.setState({
+          addComments:{texto:''}
+        });
+        axios.get(`http://localhost:5000/posts/132`)
+        .then(res => {
+          const comments = res.data.comments;
+          this.setState({ comments });
+          
+        })
+        console.log(res); //
+        console.log(res.data); //retonar o id
 
+
+      })
+    
+  
+  };
+
+  componentDidMount(){
       axios.get(`http://localhost:5000/posts/132`)
       .then(res => {
         const comments = res.data.comments;
         this.setState({ comments });
-        console.log(this.state.comments)
         
       })
-      
   }
-  render(){
+
+  updateField(event) {
+    const addComments = { ...this.state.addComments };
+    addComments[event.target.name] = event.target.value;
+    this.setState({ addComments: addComments });
     
-    
+  }
+  // handleChange = event => {
+  //   this.setState({ addComments: event.target.value });
+  // }
+  render(){  
     return(
-      
       <>
         <div className="post-class"> 
             <Card className="card-feed" style={{ width: '30rem' }}>
@@ -49,28 +98,37 @@ export default class Post extends Component{
               </ListGroup>
               <Card.Body>
                 <Button variant="primary" onClick={() => this.handleShow()}>
-                  Launch demo modal
+                    Mostrar Comentários
                 </Button>
               </Card.Body>
             </Card>
     
             <Modal show={this.state.show} onHide={() => this.handleClose()}>
               <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Comentários</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <ul>
-                  {this.state.comments.map(user=> <il> {user.text}</il>)}
-                  {console.log(this.state.comments)}
-                </ul> 
+                <ul > 
+                  {this.state.comments.map(user=> <li style={user.depth ? {marginLeft:'50px'}: {paddingLeft:'0px'}} > {user.text}</li> )}
+                </ul>  
+                  <form  onSubmit={this.handleSubmit}>
+                    <label>Comentário</label>
+                    <input
+                    type="text"
+                    name="texto"
+                    value={this.state.addComments.texto}
+                    onChange={(e) => this.updateField(e)}
+                    placeholder="Digite o comentário"
+                    />
+
+                    <Button variant="primary" onClick={this.handleSubmit} >
+                      Enviar
+                    </Button>
+
+                  </form> 
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={() => this.handleClose()}>
-                  Close
-                </Button>
-                <Button variant="primary" onClick={() => this.handleClose()}>
-                  Save Changes
-                </Button>
+
               </Modal.Footer>
             </Modal>
             
