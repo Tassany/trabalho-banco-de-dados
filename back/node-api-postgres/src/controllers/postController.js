@@ -90,7 +90,7 @@ const getPostById = (request, response) => {
 'FROM comments c ' +
 'JOIN resp p ON p.id_comment = c.id_comment_father ' +
 ') ' +
-'SELECT resp.text, resp.create_date, resp.depth, resp.id_user, users.name ' +
+'SELECT resp.text, resp.id_comment, resp.create_date, resp.depth, resp.id_user, users.name ' +
 'FROM resp ' +
 'INNER JOIN users ON users.id_user = resp.id_user WHERE resp.id_post = ' + id_post  + ' order by path;';
 				pool.query(sql, (error, res) => {
