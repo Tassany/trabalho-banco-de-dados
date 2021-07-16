@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
 import React, { Component } from "react";
 import axios from "axios";
+import {
+  AuthProvider,
+  MyContext,
+} from "../../components/Provider/AuthProvider";
 import "./postar.css";
 
 import Header from "../../components/Header";
@@ -19,8 +23,7 @@ const initialFormState = {
 };
 export default class Photos extends Component {
   state = { ...initialFormState };
-  
-
+  static contextType = MyContext;
   posts = () => {
     console.log(this.state.form.title);
     if (
@@ -36,7 +39,7 @@ export default class Photos extends Component {
       console.log(this.state.form.url_pic);
       axios
         .post(`${API_URL}/posts`, {
-          id_user: this.props.location.state.data.id_user,
+          id_user: this.context.user.id_user,
           title: this.state.form.title,
           text: this.state.form.text,
           url_pic: url_pic,
@@ -67,7 +70,6 @@ export default class Photos extends Component {
     this.setState({ form: user });
   }
   render() {
-    
     return (
       <>
         <Header />
