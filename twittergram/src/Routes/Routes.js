@@ -4,6 +4,7 @@ import Login from "../pages/Login/index";
 import Friends from "../pages/Friends";
 import OwnPosts from "../pages/OwnPosts";
 import Postar from "../pages/Postar/postar.jsx";
+import React from "react";
 
 export default function Routes() {
   return (

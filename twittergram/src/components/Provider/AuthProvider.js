@@ -1,9 +1,12 @@
-import React, { useContext, useState, Children } from "react";
+import React, { Component, useState } from "react";
 
-export const AuthContex = React.createContext(false, () => {});
+// this is the equivalent to the createStore method of Redux
+// https://redux.js.org/api/createstore
 
-export const AuthProvider = ({ children }) => {
-  const [user2, setUser2] = useState({
+const MyContext = React.createContext();
+
+const AuthProvider = (props) => {
+  const [user, setState] = useState({
     id_user: -1,
     name: "",
     url_pic_perfil: "",
@@ -14,8 +17,18 @@ export const AuthProvider = ({ children }) => {
   });
 
   return (
-    <AuthContex.Provider value={[user2, setUser2]}>
-      {children}
-    </AuthContex.Provider>
+    <MyContext.Provider
+      value={{
+        user: user,
+        userUpdate: (user) => {
+          setState(user);
+        },
+      }}
+    >
+      {props.children}
+    </MyContext.Provider>
   );
-};
+
+}
+
+export {AuthProvider, MyContext};
