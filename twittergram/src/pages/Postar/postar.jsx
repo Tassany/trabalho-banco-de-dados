@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
 import React, { Component } from "react";
 import axios from "axios";
+import {
+  AuthProvider,
+  MyContext,
+} from "../../components/Provider/AuthProvider";
 import "./postar.css";
 import {AuthProvider, MyContext} from '../../components/Provider/AuthProvider';
 
@@ -57,7 +61,6 @@ export default class Photos extends Component {
     this.setState({ form: user });
   }
   render() {
-    
     return (
       <>
         <Header />
