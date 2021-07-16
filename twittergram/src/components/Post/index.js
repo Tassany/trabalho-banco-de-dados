@@ -113,7 +113,7 @@ export default class Post extends Component{
                 
                   {this.state.comments.map(user=> 
                   <div style={user.depth ? {marginLeft: user.depth*50+'px'}: {paddingLeft:'0px'}}>
-                    <strong>{user.name}: </strong>  <li > {user.text}</li>
+                    <strong style={{fontSize:'15pt'}}>{user.name}: </strong>  <li > {user.text}</li>
                   </div>
                   )}
                 </ul>  

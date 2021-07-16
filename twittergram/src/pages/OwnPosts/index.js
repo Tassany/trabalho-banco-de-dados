@@ -8,47 +8,64 @@ import Header from '../../components/Header'
 import axios from 'axios';
 import Button from 'react-bootstrap/Button'
 
+const userBD = require("../../components/userBD/userBD");
+
 
 export default class OwnPosts extends Component{
 
+  state = {
+    userPost: [],
+    posts: [],
+  }
+
 
   componentDidMount(){
-    axios.get(`http://localhost:5000/users/posts`)
+    axios.get(`http://localhost:5000/users/posts/1`)
       .then(res => {
-        const usersPost  = res.data;
-        this.setState({ usersPost });
-        
+        const userPost  = res.data;
+        this.setState({ userPost });
+        console.log(res.data)
       })
-      axios.get(`http://localhost:5000/users/1`)
-      
-      .then(res => {
-        const user = res.data;
-        this.setState({ user });
-      })
-
-      
   }
-  
+
+  handleDelete = async(id_post) => {
+    await axios.delete(`http://localhost:5000/posts/${id_post}`)
+    .then(res => {
+      const posts  = res.data;
+      this.setState({ posts });
+      console.log(res.data)
+    })
+    axios.get(`http://localhost:5000/users/posts/1`)
+    .then(res => {
+      const userPost  = res.data;
+      this.setState({ userPost });
+      console.log(res.data)
+    })
+  }
 
   render(){
+    console.log(this.state)
     return(
       <>
-        <Header />
-        <Container>
-            <h1>Suas postagens</h1>
-            <Card style={{ width: '18rem' }}>
-              <Card.Img variant="top" src="holder.js/100px180" />
+       <Header /> 
+        <Container className="containerOwnPost">
+      <h1>Suas postagens</h1>
+        {this.state.userPost.map(user => 
+          <div >
+            <Card className="cardsOwnPost">
+              <Card.Img variant="top" src={user.url_picture} />
               <Card.Body>
-                <Card.Title>Card Title</Card.Title>
+                <Card.Title>{user.title}</Card.Title>
                 <Card.Text>
-                  Some quick example text to build on the card title and make up the bulk of
-                  the card's content.
+                  {user.text}
                 </Card.Text>
-                <Button variant="primary">Go somewhere</Button>
+                <Button variant="danger" onClick={() => this.handleDelete(user.id_post)}>Deletar</Button>
               </Card.Body>
             </Card>
-        </Container>
-  
+          </div>
+          )}
+
+          </Container>
       </>
     );
   }

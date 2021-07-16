@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Post from '../../components/Post'
 import axios from 'axios';
+const userBD = require("../../components/userBD/userBD");
 
 export default class Feed extends Component{
 
@@ -18,11 +19,12 @@ export default class Feed extends Component{
   }
 
   componentDidMount(){
-    axios.get(`http://localhost:5000/users/1/feed`)
+    console.log(userBD.id_user)
+     axios.get(`http://localhost:5000/users/1/feed`)
       .then(res => {
         const usersPost  = res.data;
         this.setState({ usersPost });
-        console.log(res.data)
+        
       })
       axios.get(`http://localhost:5000/users/1`)
       
@@ -30,14 +32,16 @@ export default class Feed extends Component{
         const user = res.data;
         this.setState({ user });
       })
-
-      
   }
+
   
   render(){
+
       return(
     <>
       <Header />
+
+      
       <Container>
           <h1>Feed</h1>
 
