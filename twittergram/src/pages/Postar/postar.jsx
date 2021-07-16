@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./postar.css";
+import {AuthProvider, MyContext} from '../../components/Provider/AuthProvider';
 
 import Header from "../../components/Header";
 const API_URL = "http://localhost:5000";
@@ -20,40 +21,29 @@ const initialFormState = {
 export default class Photos extends Component {
   state = { ...initialFormState };
   
+  static contextType = MyContext
 
   posts = () => {
     console.log(this.state.form.title);
     if (
-      this.state.form.title &&
-      this.state.form.text &&
-      this.state.form.url_pic &&
-      this.state.form.url_vid &&
-      this.state.form.tag_name
+      true
     ) {
-      const url_pic = this.state.form.url_pic.split(",");
-      const url_vid = this.state.form.url_vid.split(",");
-      const tag_name = this.state.form.tag_name.split(",");
+      console.log("entrou")
+      const url_pic = [this.state.form.url_pic]
+      const url_vid = [this.state.form.url_vid]
+      const tag_name = [this.state.form.tag_name]
       console.log(this.state.form.url_pic);
+      
       axios
         .post(`${API_URL}/posts`, {
-          id_user: this.props.location.state.data.id_user,
+          id_user: this.context.user.id_user,
           title: this.state.form.title,
           text: this.state.form.text,
           url_pic: url_pic,
-          url_vid: url_vid,
+          url_video: url_vid,
           tag_name: tag_name,
         })
-        .then((resp) => {
-          this.setState({ label: true });
-          this.setState({ label2: false });
-          this.setState({ label3: false });
-        })
-        .catch((err) => {
-          console.log(err);
-          this.setState({ label: false });
-          this.setState({ label2: true });
-          this.setState({ label3: false });
-        });
+        console.log(this.context.user.id_user)
     } else {
       this.setState({ label: false });
       this.setState({ label2: false });

@@ -8,6 +8,7 @@ import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Photo from '../Photo'
 import Form from 'react-bootstrap/Form'
+import {AuthProvider, MyContext} from '../../components/Provider/AuthProvider';
 
 import axios from 'axios';
 const initialFormState ={
@@ -29,6 +30,7 @@ export default class Post extends Component{
     this.setState(...initialFormState);
   };
 
+  static contextType = MyContext
   commentStyle = () => {
     if(!this.state.comments.id_comentario_pai){
       return {paddingLeft:'50px'}
@@ -40,7 +42,7 @@ export default class Post extends Component{
 
   handleSubmit = ()=>{
       axios.post(`http://localhost:5000/posts/${this.props.id_post}/comment`, {
-        id_user:  1,
+        id_user:  this.context.user.id_user,
         text: this.state.addComments.texto,
         id_comment_father: null,
       })

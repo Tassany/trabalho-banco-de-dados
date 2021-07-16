@@ -7,11 +7,14 @@ import Container from 'react-bootstrap/Container'
 import Header from '../../components/Header'
 import axios from 'axios';
 import Button from 'react-bootstrap/Button'
-
+import {AuthProvider, MyContext} from '../../components/Provider/AuthProvider';
 const userBD = require("../../components/userBD/userBD");
 
 
 export default class OwnPosts extends Component{
+
+
+  static contextType = MyContext
 
   state = {
     userPost: [],
@@ -20,7 +23,7 @@ export default class OwnPosts extends Component{
 
 
   componentDidMount(){
-    axios.get(`http://localhost:5000/users/posts/1`)
+    axios.get(`http://localhost:5000/users/posts/${this.context.user.id_user}`)
       .then(res => {
         const userPost  = res.data;
         this.setState({ userPost });
@@ -35,7 +38,7 @@ export default class OwnPosts extends Component{
       this.setState({ posts });
       console.log(res.data)
     })
-    axios.get(`http://localhost:5000/users/posts/1`)
+    axios.get(`http://localhost:5000/users/posts/${this.context.user.id_user}`)
     .then(res => {
       const userPost  = res.data;
       this.setState({ userPost });

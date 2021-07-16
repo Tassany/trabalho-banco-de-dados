@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container'
 import Header from '../../components/Header'
 import axios from 'axios';
 import Button from 'react-bootstrap/Button'
-
+import {AuthProvider, MyContext} from '../../components/Provider/AuthProvider';
 const userBD = require("../../components/userBD/userBD");
 
 const initialFormState ={
@@ -15,13 +15,14 @@ const initialFormState ={
   followw:[]
 }
 
+
 export default class Friends extends Component{
 
   state ={
     ...initialFormState
   }
 
-
+static contextType = MyContext
   componentDidMount(){
     axios.get(`http://localhost:5000/users/`)
       .then(res => {
@@ -34,8 +35,7 @@ export default class Friends extends Component{
   handleFollow = async(id_usuario) => {
     console.log(id_usuario)
     await axios.post(`http://localhost:5000/users/follow/${id_usuario}`, {
-      id_user : 1,
-      id_follow: id_usuario,
+      id_user : this.context.user.id_user,
     })
     .then(res => {
       const follow  = res.data;

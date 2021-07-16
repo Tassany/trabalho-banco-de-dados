@@ -28,12 +28,14 @@ const getUserById = (request, response) => {
 const getFeed = (request, response) => {
     const id_user = parseInt(request.params.id_user)
 
-    pool.query('SELECT * FROM rel_user_user ruu inner JOIN posts as p ON p.id_user = ruu.id_follow WHERE ruu.id_user = $1;', [id_user], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
-    })
+    pool.query('WITH post_thumb AS (SELECT ROW_NUMBER() OVER (PARTITION BY id_post ORDER BY pics.id_picture ASC) m, pics.url_picture, pics.id_post ' +
+        'FROM pictures pics) SELECT * FROM rel_user_user ruu INNER JOIN posts p ON p.id_user = ruu.id_follow ' +
+        'INNER JOIN post_thumb ON post_thumb.id_post = p.id_post WHERE ruu.id_user = $1 AND m = 1;', [id_user], (error, results) => {
+            if (error) {
+                throw error
+            }
+            response.status(200).json(results.rows)
+        })
 }
 
 // POST a new user
@@ -113,9 +115,10 @@ const getUserName = (request, response) => {
     })
 }
 
-const followUser = (req, res) => {
-    
-    pool.query("INSERT into rel_user_user (id_user, id_follow) VALUES ($1, $2)",[req.body.id_user, req.body.id_follow], (error, results) => {
+const followUser = (request, res) => {
+    const id_follow = parseInt(request.params.id_user);
+    const {id_user} = request.body;
+    pool.query("INSERT into rel_user_user (id_user, id_follow) VALUES ($1, $2)",[id_user, id_follow], (error, results) => {
         if(error){
             throw error;
         }
@@ -150,9 +153,10 @@ const deleteUserById = (req, res) => {
 const getAllPostsByUser = (req, res) => {
     const id_user = req.params.id_user;
 
-    var sql = "SELECT posts.* FROM users INNER JOIN posts ON posts.id_user = users.id_user WHERE users.id_user = $1"
+    var sql = 'WITH post_thumb AS (SELECT ROW_NUMBER() OVER (PARTITION BY id_post ORDER BY pics.id_picture ASC) m, pics.url_picture, pics.id_post ' +
+        'FROM pictures pics) SELECT * FROM posts p INNER JOIN post_thumb ON post_thumb.id_post = p.id_post WHERE p.id_user = $1 AND m = 1;'
     pool.query(sql, [id_user], (error, results) => {
-        if(error){
+        if (error) {
             throw error;
         }
         res.status(200).json(results.rows);
