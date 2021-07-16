@@ -115,7 +115,7 @@ const getUserName = (request, response) => {
 
 const followUser = (req, res) => {
     
-    pool.query("INSERT into rel_user_user (id_user, id_follow) VALUES ($1, $2)",[id_user, id_follow], (error, results) => {
+    pool.query("INSERT into rel_user_user (id_user, id_follow) VALUES ($1, $2)",[req.body.id_user, req.body.id_follow], (error, results) => {
         if(error){
             throw error;
         }

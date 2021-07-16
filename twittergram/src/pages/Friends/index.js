@@ -11,7 +11,8 @@ import Button from 'react-bootstrap/Button'
 const userBD = require("../../components/userBD/userBD");
 
 const initialFormState ={
-  users: []
+  users: [],
+  followw:[]
 }
 
 export default class Friends extends Component{
@@ -37,8 +38,8 @@ export default class Friends extends Component{
       id_follow: id_usuario,
     })
     .then(res => {
-      const users  = res.data;
-      this.setState({ users });
+      const follow  = res.data;
+      this.setState({ follow });
       console.log(res.data)
     })
     axios.get(`http://localhost:5000/users/`)

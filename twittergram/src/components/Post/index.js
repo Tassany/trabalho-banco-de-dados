@@ -94,9 +94,7 @@ export default class Post extends Component{
                   {this.props.texto}
                 </Card.Text>
               </Card.Body>
-              <ListGroup className="list-group-flush">
-                <ListGroupItem>tags</ListGroupItem>
-              </ListGroup>
+
               <Card.Body>
                 <Button variant="primary" onClick={() => this.handleShow()}>
                     Mostrar Comentários

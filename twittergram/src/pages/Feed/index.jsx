@@ -9,12 +9,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Post from '../../components/Post'
 import axios from 'axios';
-<<<<<<< HEAD
-const userBD = require("../../components/userBD/userBD");
-=======
 import {AuthProvider, MyContext} from '../../components/Provider/AuthProvider';
 import Contes from '../../components/Provider/Contes';
->>>>>>> ca509943ce827e706d4fc6d7732f4ead7402d465
 
 class Feed extends Component{
   
@@ -30,17 +26,13 @@ class Feed extends Component{
   }
 
   componentDidMount(){
-    console.log(userBD.id_user)
-     axios.get(`http://localhost:5000/users/1/feed`)
+  
+     axios.get(`http://localhost:5000/users/${this.context.user.id_user}/feed`)
       .then(res => {
         const usersPost  = res.data;
         this.setState({ usersPost });
-<<<<<<< HEAD
-        
-=======
->>>>>>> ca509943ce827e706d4fc6d7732f4ead7402d465
       })
-      axios.get(`http://localhost:5000/users/1`)
+      axios.get(`http://localhost:5000/users/${this.context.user.id_user}`)
       
       .then(res => {
         const user = res.data;
@@ -50,12 +42,8 @@ class Feed extends Component{
 
   
   render(){
-<<<<<<< HEAD
-
-=======
     console.log("feed-context===================")
     console.log(this.context);
->>>>>>> ca509943ce827e706d4fc6d7732f4ead7402d465
       return(
     <>
       <Header />
