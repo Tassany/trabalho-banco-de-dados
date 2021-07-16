@@ -1,33 +1,34 @@
-import React, { Component } from "react";
-import Contes from "./Contes";
+import React, { Component, useState } from "react";
 
-class AuthProvider extends Component {
-  state = {
-    user: {
-      id_user: -1,
-      name: "",
-      url_pic_perfil: "",
-      email: "",
-      password: "",
-      description: "",
-      create_date: "",
-    },
-  };
+// this is the equivalent to the createStore method of Redux
+// https://redux.js.org/api/createstore
 
-  render() {
-    return (
-      <Contes.Provider
-        value={{
-          user: this.state.user,
-          userUpdate: (user) => {
-            this.setState(user);
-          },
-        }}
-      >
-        {this.props.children}
-      </Contes.Provider>
-    );
-  }
+const MyContext = React.createContext();
+
+const AuthProvider = (props) => {
+  const [user, setState] = useState({
+    id_user: -1,
+    name: "",
+    url_pic_perfil: "",
+    email: "",
+    password: "",
+    description: "",
+    create_date: "",
+  });
+
+  return (
+    <MyContext.Provider
+      value={{
+        user: user,
+        userUpdate: (user) => {
+          setState(user);
+        },
+      }}
+    >
+      {props.children}
+    </MyContext.Provider>
+  );
+
 }
 
-export default AuthProvider;
+export {AuthProvider, MyContext};

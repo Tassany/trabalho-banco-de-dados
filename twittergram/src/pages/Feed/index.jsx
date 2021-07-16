@@ -9,8 +9,16 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Post from '../../components/Post'
 import axios from 'axios';
+import {AuthProvider, MyContext} from '../../components/Provider/AuthProvider';
+import Contes from '../../components/Provider/Contes';
 
-export default class Feed extends Component{
+class Feed extends Component{
+  
+  constructor(props){
+    super(props);
+  }
+
+  static contextType = MyContext
 
   state = {
     usersPost: [],
@@ -22,7 +30,6 @@ export default class Feed extends Component{
       .then(res => {
         const usersPost  = res.data;
         this.setState({ usersPost });
-        console.log(res.data)
       })
       axios.get(`http://localhost:5000/users/1`)
       
@@ -35,6 +42,8 @@ export default class Feed extends Component{
   }
   
   render(){
+    console.log("feed-context===================")
+    console.log(this.context);
       return(
     <>
       <Header />
@@ -76,3 +85,5 @@ export default class Feed extends Component{
   }
 
 }
+
+export default Feed;

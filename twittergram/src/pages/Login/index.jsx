@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./index.css";
 import Home from "../../assets/images/home.png";
-const API_URL = "http://localhost:5000";
-import AuthProvider from "../../components/Provider/AuthProvider";
+import { AuthProvider, MyContext } from "../../components/Provider/AuthProvider";
+import { Link } from 'react-router-dom'
 
-const userBD = require("../../components/userBD/userBD");
+const API_URL = "http://localhost:5000";
+
+// const userBD = require("../../components/userBD/userBD");
 const initialFormState = {
   user: {
     name: "",
@@ -17,46 +19,53 @@ const initialFormState = {
   label2: false,
 };
 
-class Login extends Component {
+export default class Login extends Component {
   state = { ...initialFormState };
 
   clear = () => {
     this.setState(...initialFormState);
   };
 
-  auth = () => {
+  static contextType = MyContext
+
+
+  auth = async () => {
+    const { user } = this.context;
     console.log(this.state.user.email);
     console.log(this.state.user.senha);
-
-    axios
-      .post(`${API_URL}/signin`, {
+    try {
+      const res = await axios.post(`${API_URL}/signin`, {
         email: this.state.user.email,
         password: this.state.user.senha,
-      })
-      .then((res) => {
-        console.log(res.data);
-        console.log(userBD);
-        userBD.id_user = res.data[0].id_user;
-        userBD.name = res.data[0].name;
-        userBD.email = res.data[0].email;
-        userBD.password = res.data[0].password;
-        userBD.description = res.data[0].description;
-        userBD.create_date = res.data[0].create_date;
-        userBD.url_pic_perfil = res.data[0].url_pic_perfil;
-        console.log(userBD);
-        if (res.data.length) {
-          console.log(res.data[0]);
-          return this.props.history.push({
-            pathname: "/feed",
-            state: { data: res.data[0] },
-          });
-        } else {
-          this.setState({ label: true });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
       });
+
+
+      console.info("TESTE+++++++++++++++++++=");
+      console.info(user);
+
+      if (res.data.length) {
+
+        user.id_user = res.data[0].id_user;
+        user.email = res.data[0].email;
+        user.password = res.data[0].password;
+
+        this.context.userUpdate(user);
+
+        console.log(res.data[0]);
+
+        return this.props.history.push({
+          pathname: "/feed",
+          state: { data: res.data[0] },
+        });
+      } else {
+        this.setState({ label: true });
+      }
+
+    }
+    catch (err) {
+      console.log(err);
+    }
+
   };
   register = () => {
     console.log(this.state.user.name);
@@ -215,9 +224,3 @@ class Login extends Component {
     );
   }
 }
-
-export default () => {
-  <AuthProvider>
-    <Login />
-  </AuthProvider>;
-};
